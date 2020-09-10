@@ -1,0 +1,23 @@
+name: Integration
+
+on: push
+
+jobs:
+  integration:
+    runs-on: ubuntu-18.04
+    container: python:3.7.7
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        apt update && apt install -y make
+        pip install pipenv
+        make
+    - name: Run ci bundle command
+      run: |
+        make ci-bundle
